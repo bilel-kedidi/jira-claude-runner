@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="popup">
+  <header>
+    <div class="brand">
+      <img src="icon.png" alt="">
+      <h1>Jira → Claude <span class="sub">Branch, solve &amp; commit</span></h1>
+    </div>
+    <a href="#" id="open-options" class="icon-link" title="Settings">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Settings
+    </a>
+  </header>
+
+  <main>
+    <section id="ticket">
+      <div id="ticket-status" class="muted">Reading ticket…</div>
+      <div id="manual" class="row" hidden>
+        <input id="key-input" placeholder="ABC-123">
+        <button id="load-btn">Load</button>
+      </div>
+      <div id="ticket-card" class="card" hidden>
+        <div class="ticket-top">
+          <a id="t-key" target="_blank"></a>
+          <span id="t-meta"></span>
+        </div>
+        <div id="t-summary"></div>
+      </div>
+    </section>
+
+    <section id="run" class="card" hidden>
+      <label style="margin-top:0">Target project
+        <select id="project"></select>
+      </label>
+
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" data-tab="ask">Ask Claude</button>
+        <button class="tab" role="tab" data-tab="solve">Solve</button>
+      </div>
+
+      <div id="panel-ask" class="tab-panel" hidden>
+        <div id="chat-log" class="chat-log">
+          <div class="chat-empty">Not sure what the ticket needs? Ask Claude. It reads this project's code to answer, but can't change anything.</div>
+        </div>
+        <div id="chat-chips" class="chips">
+          <button class="chip">Is this a data fix or a code change?</button>
+          <button class="chip">Explain the issue in simple terms</button>
+          <button class="chip">Which files are involved?</button>
+          <button class="chip">How would you fix it?</button>
+        </div>
+        <div class="chat-input">
+          <textarea id="chat-input" rows="2" placeholder="Ask about this ticket…  (Enter to send)"></textarea>
+          <button id="chat-send" class="primary" title="Send">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+        <div class="chat-foot small">
+          <span class="muted">🔒 Read-only</span>
+          <span>
+            <a href="#" id="chat-stop" hidden>Stop</a>
+            <a href="#" id="chat-clear">Clear chat</a>
+          </span>
+        </div>
+      </div>
+
+      <div id="panel-solve" class="tab-panel" hidden>
+      <div class="grid">
+        <label>Base branch <span class="hint">branch off from</span>
+          <input id="base-branch" list="branch-list" placeholder="current HEAD" autocomplete="off" spellcheck="false">
+        </label>
+        <label>New branch
+          <input id="branch-name" autocomplete="off" spellcheck="false">
+        </label>
+      </div>
+      <datalist id="branch-list"></datalist>
+      <div id="project-info" class="muted small"></div>
+      <label>Extra instructions <span class="hint">optional</span>
+        <textarea id="extra" rows="3" placeholder="e.g. the bug is probably in app/services/orders…"></textarea>
+      </label>
+      <div id="chat-context-note" class="small muted" hidden>💬 Your chat about this ticket will be passed to Claude as context.</div>
+      <button id="start" class="primary block">Create branch &amp; solve with Claude</button>
+      </div>
+    </section>
+
+    <section id="job" class="card" hidden>
+      <div class="job-head">
+        <strong id="job-title"></strong>
+        <span id="job-status" class="badge"></span>
+      </div>
+      <ol class="stepper" id="stepper">
+        <li data-step="branch">Branch</li>
+        <li data-step="claude">Claude</li>
+        <li data-step="collect">Changes</li>
+        <li data-step="commit">Commit</li>
+      </ol>
+      <div id="job-step" class="muted small"></div>
+      <pre id="job-log"></pre>
+      <div id="job-result"></div>
+      <div class="job-actions">
+        <button id="cancel" class="danger">Cancel</button>
+        <button id="clear">Clear</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

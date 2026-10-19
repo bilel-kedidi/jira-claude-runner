@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Jira → Claude",
+  "version": "1.0.0",
+  "description": "Turn a Jira ticket into a commit: ask Claude about the issue, create a branch, let Claude Code solve it, and commit only its changes.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "nativeMessaging",
+    "notifications"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Solve with Claude",
+    "default_icon": "icon.png"
+  },
+  "options_page": "options.html",
+  "icons": {
+    "128": "icon.png"
+  }
+}

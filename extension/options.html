@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Jira → Claude settings</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="options">
+  <header>
+    <div class="brand">
+      <img src="icon.png" alt="">
+      <h1>Jira → Claude <span class="sub">Settings</span></h1>
+    </div>
+    <div class="row">
+      <button id="test">Test connection</button>
+      <button id="save" class="primary">Save</button>
+    </div>
+  </header>
+
+  <main>
+    <div id="msg" class="small"></div>
+    <pre id="test-out" hidden></pre>
+
+    <h2>Commit</h2>
+    <div class="panel">
+      <label>Commit message template <span class="hint">{key} {summary} {type} {slug}</span>
+        <input id="commitTemplate">
+      </label>
+      <label class="check"><input type="checkbox" id="includeSummaryInCommit"> Add Claude's summary as the commit body</label>
+    </div>
+
+    <h2>Projects</h2>
+    <div id="projects"></div>
+    <button id="add">+ Add project</button>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
